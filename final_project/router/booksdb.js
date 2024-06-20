@@ -5,7 +5,11 @@ let books = {
     title: "Things Fall Apart",
     reviews: {},
   },
-  2: { author: "Hans Christian Andersen", title: "Fairy tales", reviews: {} },
+  2: {
+    author: "Hans Christian Andersen",
+    title: "Fairy tales",
+    reviews: { Critic: "Movie Good!" },
+  },
   3: { author: "Dante Alighieri", title: "The Divine Comedy", reviews: {} },
   4: { author: "Unknown", title: "The Epic Of Gilgamesh", reviews: {} },
   5: { author: "Unknown", title: "The Book Of Job", reviews: {} },
@@ -37,6 +41,58 @@ books_routes.get("/isbn/:isbn", (req, res) => {
   // Check if the book exists
   if (books[isbn]) {
     res.json(books[isbn]);
+  } else {
+    // Bail, baby!
+    res.status(404).send("Book not found");
+  }
+});
+
+books_routes.get("/review/:isbn", (req, res) => {
+  // Get param
+  const isbn = req.params.isbn;
+  // Check if the book exists
+  if (books[isbn]) {
+    res.json(books[isbn].reviews);
+  } else {
+    // Bail, baby!
+    res.status(404).send("Book not found");
+  }
+});
+
+books_routes.get("/title/:title", (req, res) => {
+  // Get param
+  const title = req.params.title;
+  //Iterate through the books array, returning only those books that match the author
+  let filteredBooks = {};
+
+  for (let key in books) {
+    if (books[key].title.toUpperCase() === title.toUpperCase()) {
+      filteredBooks[key] = { ...books[key] };
+    }
+  }
+
+  if (filteredBooks) {
+    res.json(filteredBooks);
+  } else {
+    // Bail, baby!
+    res.status(404).send("Book not found");
+  }
+});
+
+books_routes.get("/author/:author", (req, res) => {
+  // Get param
+  const author = req.params.author;
+  //Iterate through the books array, returning only those books that match the author
+  let filteredBooks = {};
+
+  for (let key in books) {
+    if (books[key].author.toUpperCase() === author.toUpperCase()) {
+      filteredBooks[key] = { ...books[key] };
+    }
+  }
+
+  if (filteredBooks) {
+    res.json(filteredBooks);
   } else {
     // Bail, baby!
     res.status(404).send("Book not found");
