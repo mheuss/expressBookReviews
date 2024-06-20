@@ -8,7 +8,7 @@ let books = {
   2: {
     author: "Hans Christian Andersen",
     title: "Fairy tales",
-    reviews: { Critic: "Movie Good!" },
+    reviews: { 1: "Movie Good!" },
   },
   3: { author: "Dante Alighieri", title: "The Divine Comedy", reviews: {} },
   4: { author: "Unknown", title: "The Epic Of Gilgamesh", reviews: {} },
@@ -99,4 +99,5 @@ books_routes.get("/author/:author", (req, res) => {
   }
 });
 
-module.exports = books_routes;
+module.exports.books = books;
+module.exports.books_routes = books_routes;
